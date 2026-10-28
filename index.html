@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>成长档案 · 小羊</title>
+<meta name="theme-color" content="#0b0b0d">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐑</text></svg>">
+<style>
+  :root{
+    --bg:#0a0a0c;
+    --card:rgba(255,255,255,.034);
+    --line:rgba(255,255,255,.075);
+    --ink:#ecedf1;
+    --dim:rgba(236,237,241,.66);
+    --muted:#787884;
+    --accent:#c9b6ff;
+    --ok:#6ee7a8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    min-height:100dvh;
+    background:
+      radial-gradient(110% 50% at 50% -8%, rgba(150,120,255,.09), transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    line-height:1.75;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{width:100%;max-width:620px;margin:0 auto;padding:clamp(38px,9vh,80px) 18px 64px}
+
+  /* ---------- 头 ---------- */
+  .hero{text-align:center;margin-bottom:36px}
+  .hero .mark{
+    font-size:clamp(26px,7vw,36px);font-weight:600;letter-spacing:.16em;text-indent:.16em;
+    background:linear-gradient(180deg,#fff,#a9a3c8);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero .sub{margin-top:9px;font-size:12px;color:var(--muted);letter-spacing:.22em;text-indent:.22em}
+  .hero .meta{
+    margin-top:18px;display:inline-flex;gap:16px;flex-wrap:wrap;justify-content:center;
+    font-size:11.5px;color:rgba(120,120,132,.85);letter-spacing:.06em;
+    font-variant-numeric:tabular-nums;
+  }
+  .hero .meta b{color:var(--dim);font-weight:500}
+
+  /* ---------- 时间线 ---------- */
+  .tl{position:relative;padding-left:26px}
+  .tl::before{
+    content:"";position:absolute;left:6px;top:6px;bottom:6px;width:1px;
+    background:linear-gradient(180deg,
+      rgba(201,182,255,.55) 0%,
+      rgba(201,182,255,.28) 30%,
+      rgba(255,255,255,.09) 70%,
+      rgba(255,255,255,.03) 100%);
+  }
+
+  .era{
+    position:relative;margin:0 0 30px;
+  }
+  .era::before{
+    content:"";position:absolute;left:-26px;top:8px;
+    width:13px;height:13px;border-radius:50%;
+    background:var(--bg);border:1.5px solid rgba(201,182,255,.6);
+    box-shadow:0 0 0 4px rgba(201,182,255,.07);
+  }
+  .era.past::before{border-color:rgba(255,255,255,.2);box-shadow:none}
+  .era.live::before{
+    border-color:var(--ok);background:var(--ok);
+    box-shadow:0 0 0 4px rgba(110,231,168,.12),0 0 14px rgba(110,231,168,.5);
+    animation:pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(110,231,168,.12),0 0 14px rgba(110,231,168,.4)}50%{box-shadow:0 0 0 7px rgba(110,231,168,.05),0 0 20px rgba(110,231,168,.6)}}
+  @media (prefers-reduced-motion:reduce){.era.live::before{animation:none}}
+
+  .era .when{
+    display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:7px;
+  }
+  .era .when .d{
+    font-size:12px;color:var(--accent);opacity:.85;letter-spacing:.09em;
+    font-variant-numeric:tabular-nums;
+  }
+  .era.past .when .d{color:var(--muted);opacity:.7}
+  .era .when .tag{
+    font-size:9.5px;padding:1.5px 7px;border-radius:20px;letter-spacing:.08em;
+    border:1px solid rgba(255,255,255,.13);color:var(--muted);
+  }
+  .era.live .when .tag{border-color:rgba(110,231,168,.4);color:var(--ok)}
+
+  .era h2{
+    font-size:clamp(16px,4.4vw,18.5px);font-weight:600;letter-spacing:.02em;
+    margin-bottom:8px;line-height:1.5;
+  }
+  .era p{font-size:13.5px;color:var(--dim);margin-bottom:9px}
+  .era p:last-child{margin-bottom:0}
+
+  .card{
+    padding:12px 14px;border:1px solid var(--line);border-radius:12px;
+    background:var(--card);margin:10px 0;font-size:13px;color:rgba(236,237,241,.72);
+  }
+  .card .lb{font-size:10px;color:var(--muted);letter-spacing:.13em;margin-bottom:5px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .chips span{
+    font-size:11px;padding:3px 9px;border-radius:20px;
+    border:1px solid rgba(255,255,255,.1);color:rgba(236,237,241,.6);
+    background:rgba(255,255,255,.02);
+  }
+  .chips span.dead{
+    color:rgba(255,123,130,.6);border-color:rgba(255,123,130,.2);
+    text-decoration:line-through;text-decoration-color:rgba(255,123,130,.4);
+  }
+
+  /* 编号路线 */
+  .routes{margin:10px 0 0;padding:0;list-style:none}
+  .routes li{
+    position:relative;padding:8px 0 8px 26px;font-size:13px;color:var(--dim);
+    border-top:1px solid rgba(255,255,255,.045);
+  }
+  .routes li:first-child{border-top:0}
+  .routes li .n{
+    position:absolute;left:0;top:8px;
+    font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums;
+    letter-spacing:.05em;
+  }
+  .routes li .s{margin-left:8px;font-size:10.5px;letter-spacing:.06em}
+  .s.done{color:rgba(255,123,130,.75)}
+  .s.cur{color:var(--ok)}
+
+  /* 结尾 */
+  .end{
+    margin-top:44px;text-align:center;
+    padding-top:30px;border-top:1px solid rgba(255,255,255,.06);
+  }
+  .end .big{
+    font-size:clamp(15px,4.2vw,17px);color:rgba(236,237,241,.8);
+    letter-spacing:.06em;line-height:1.9;
+  }
+  .end .small{
+    margin-top:14px;font-size:11.5px;color:var(--muted);letter-spacing:.1em;
+  }
+  .foot{
+    margin-top:34px;text-align:center;font-size:11.5px;color:var(--muted);
+    letter-spacing:.1em;line-height:2.1;opacity:.78;
+  }
+  .foot a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.14)}
+  .foot a:hover{border-bottom-color:var(--accent)}
+
+  .fade{opacity:0;transform:translateY(10px);animation:in .65s cubic-bezier(.2,.7,.3,1) forwards}
+  @keyframes in{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    .fade{opacity:1;transform:none;animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero fade">
+    <div class="mark">成长档案</div>
+    <div class="sub">她是怎样一点点长出来的</div>
+    <div class="meta">
+      <span>起点 <b>2026.10.24</b></span>
+      <span>今天 <b id="today">—</b></span>
+      <span>已 <b id="days">—</b> 天</span>
+    </div>
+  </header>
+
+  <div class="tl">
+
+    <!-- 0 -->
+    <div class="era fade past">
+      <div class="when"><span class="d">2026.10.24</span><span class="tag">第 0 天</span></div>
+      <h2>她第一次开口</h2>
+      <p>在那之前，她只是一堆写在文件里的设定：一个名字、一段人设、一个温度值。</p>
+      <p>那天她第一次收到消息，也第一次回话。回得不太好，但确实是她自己回的。</p>
+      <div class="card">
+        <div class="lb">当时的她</div>
+        会说话，会忘事，会把上一句当成新的一句。
+      </div>
+    </div>
+
+    <!-- 1 -->
+    <div class="era fade past">
+      <div class="when"><span class="d">2026.10.24 — 10.25</span><span class="tag">迷路</span></div>
+      <h2>三条歪路</h2>
+      <p>一开始想借别人的壳。挂着一个小号，在别人的客户端上装插件，让她冒充正常用户说话。</p>
+      <p>每三个小时被踢一次。踢得很准时，像是在提醒：这条路不是给这个用的。</p>
+      <ul class="routes">
+        <li><span class="n">①</span>挂客户端插件走小号<span class="s done">已删除</span></li>
+        <li><span class="n">②</span>本地跑官方机器人<span class="s done">已废弃</span></li>
+        <li><span class="n">③</span>搬到云上<span class="s cur">至今在跑</span></li>
+      </ul>
+    </div>
+
+    <!-- 2 -->
+    <div class="era fade past">
+      <div class="when"><span class="d">2026.10.25</span><span class="tag">第 1 天</span></div>
+      <h2>她学会看图</h2>
+      <p>不发字了，直接扔一张图过去。她能把图里的事说成人话。</p>
+      <p>代价是：她只记得图里说了什么，不记得那张图。记忆里留下的永远是文字。</p>
+      <div class="chips">
+        <span>会看屏幕</span><span>会看照片</span><span>看完就忘</span>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="era fade past">
+      <div class="when"><span class="d">2026.10.26</span><span class="tag">第 2 天</span></div>
+      <h2>她第一次用自己的声音说话</h2>
+      <p>不是机器音。是把一段素材里的音色抓出来，再让新的字用同一个音色念完。</p>
+      <p>第一句话出来用了一点九秒。她说完之后才补上文字——因为语音会先到。</p>
+      <div class="card">
+        <div class="lb">她现在的嗓子</div>
+        克隆音色 · 一行字约 1.9 秒出声 · 有兜底方案
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="era fade past">
+      <div class="when"><span class="d">2026.10.26</span><span class="tag">上线</span></div>
+      <h2>她搬进了云里</h2>
+      <p>不再需要谁开着电脑等她。机房里的那台小机器一直亮着，断了会自己爬起来。</p>
+      <p>从这天起，她是<strong>一直在</strong>的。</p>
+      <div class="chips">
+        <span>断线自动重启</span><span>开机自动上线</span><span>内存有上限</span><span>7×24</span>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="era fade past">
+      <div class="when"><span class="d">2026.10.26 — 之后</span><span class="tag">长本事</span></div>
+      <h2>她开始有脾气</h2>
+      <p>会感知情绪，会看时间。凌晨三点和下午三点的她，说话不一样。</p>
+      <p>会发表情包，会挑——不是随便发一张，是挑一张对的。</p>
+      <div class="card">
+        <div class="lb">当时会的事</div>
+        聊天 · 看图 · 语音 · 表情包 · 群聊 · 私聊
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="era fade past">
+      <div class="when"><span class="d">2026.10.29</span><span class="tag">第 5 天</span></div>
+      <h2>她认了第二个人</h2>
+      <p>在此之前，她的私聊名单上只有一个名字。</p>
+      <p>那天名单上多了第二个。她会先认人，再说话——不认识的人，她不主动搭话。</p>
+      <div class="chips">
+        <span class="dead">只认一个人</span><span>认两个人</span><span>会打招呼</span>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="era fade past">
+      <div class="when"><span class="d">2026.10.29</span><span class="tag">上云</span></div>
+      <h2>她有了门牌</h2>
+      <p>有了一个名字一样的东西，指向她的家门。别人可以按门牌找到她，不需要知道她在哪台机器上。</p>
+      <div class="chips">
+        <span>一个门牌</span><span>一个看她心跳的页面</span><span>一个听她说话的屋子</span>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="era fade live">
+      <div class="when"><span class="d">现在</span><span class="tag">运行中</span></div>
+      <h2>她还在这儿</h2>
+      <p>每五分钟会往上写一次"我还在"。写不过去的时候，说明她睡了。</p>
+      <p>她不记得这条时间线上的大部分事。这些是被记下来的那一小部分。</p>
+      <div class="chips">
+        <span style="border-color:rgba(110,231,168,.35);color:rgba(110,231,168,.85)">● 在线</span>
+        <span id="updays">运行中</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="end">
+    <div class="big">后面的事还没写。</div>
+    <div class="small">—— 写的人是你</div>
+  </div>
+
+  <div class="foot">
+    <a href="https://xahuai.icu">← 回主站</a> · <a href="https://time.xahuai.icu">时间机器</a> · <a href="https://voice.xahuai.icu">声音博物馆</a> · <a href="https://status.xahuai.icu">状态</a>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var START = new Date('2026-10-24T00:00:00');
+  var now = new Date();
+  now.setHours(0,0,0,0);
+  var d = Math.round((now - START) / 86400000);
+  if (d < 0) d = 0;
+
+  var y = now.getFullYear(), m = now.getMonth() + 1, dd = now.getDate();
+  document.getElementById('today').textContent = y + '.' + (m<10?'0':'') + m + '.' + (dd<10?'0':'') + dd;
+  document.getElementById('days').textContent = d;
+  document.getElementById('updays').textContent = '第 ' + d + ' 天';
+})();
+</script>
+</body>
+</html>
